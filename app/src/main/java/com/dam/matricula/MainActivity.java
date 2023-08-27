@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,8 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvGastosAdicionales;
     private TextView tvTotalPagar;
 
+    private RadioButton cuota4, cuota5, cuota6;
+
+    private TextView tvCostoCarrera;
     private  TextView tvPension;
 
+    private RadioGroup radioGroup;
     private Button btnCalcular;
 
     private ArrayAdapter<String> fiaAdapter;
@@ -47,17 +53,30 @@ public class MainActivity extends AppCompatActivity {
         spinner1 = (Spinner) findViewById(R.id.spnEscuela);
         spinner2 = (Spinner) findViewById(R.id.spnCarrera);
 
+        radioGroup = findViewById(R.id.rbnt);
+        radioGroup.check(R.id.rbt4);
 
         chkCBiblioteca = findViewById(R.id.chkCBiblioteca);
         chkCMedio = findViewById(R.id.chkCMedio);
 
+        tvCostoCarrera=findViewById(R.id.tvCostoCarrera);
         tvPension=findViewById(R.id.tvPension);
         tvGastosAdicionales = findViewById(R.id.tvGastosAdicionales);
         tvTotalPagar = findViewById(R.id.tvTotalPagar);
 
+
+        cuota4=findViewById(R.id.rbt4);
+        cuota5=findViewById(R.id.rbt5);
+        cuota6=findViewById(R.id.rbt6);
+
         btnCalcular=findViewById(R.id.btnCalcular);
 
-
+        btnCalcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateTotal();
+            }
+        });
 
 
         // Define los arrays
@@ -65,6 +84,17 @@ public class MainActivity extends AppCompatActivity {
         String[] opcionesFIA = {"Tec. de la Información", "Sistemas"};
         String[] opcionesFCE = {"Administración", "Contabilidad"};
         String[] opcionesTeo = {"Biblia"};
+
+        // Definir costos
+        carreraCosts = new HashMap<>();
+        carreraCosts.put("Tec. de la Información", 3000.0);
+        carreraCosts.put("Sistemas", 3000.0);
+        carreraCosts.put("Administración", 4000.0);
+        carreraCosts.put("Contabilidad", 4500.0);
+        carreraCosts.put("Biblia", 3000.0);
+
+
+
 
 
         // Adaptadores para los Spinners
@@ -103,8 +133,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       
 
 
+    }
+
+
+    private void calculateTotal() {
+        String carreraSeleccionada = spinner2.getSelectedItem().toString();
+        double costoCarrera = carreraCosts.get(carreraSeleccionada);
+
+
+        // Calcular gastos adicionales
+        double gastosAdicionales = 0.0;
+        if (chkCBiblioteca.isChecked()) {
+            gastosAdicionales += 25.0;
+        }
+        if (chkCMedio.isChecked()) {
+            gastosAdicionales += 25.0;
+        }
+
+        // Calcular Cuotas
+
+        double Numerodecuota = 0.0;
+        RadioButton[] cuotas = { cuota4, cuota5, cuota6 };
+        int[] cuotaValues = { 4, 5, 6 };
+
+        for (int i = 0; i < cuotas.length; i++) {
+            if (cuotas[i].isChecked()) {
+                Numerodecuota = costoCarrera / cuotaValues[i];
+                break;
+            }
+        }
+
+
+        // Calcular total a pagar
+        double totalPagar = costoCarrera + Numerodecuota + gastosAdicionales;
+
+        // Mostrar los resultados en los TextViews correspondientes
+        tvCostoCarrera.setText(String.format("S/ %.2f", costoCarrera));
+        tvPension.setText(String.format("S/ %.2f", Numerodecuota));
+        tvGastosAdicionales.setText(String.format("S/ %.2f", gastosAdicionales));
+        tvTotalPagar.setText(String.format("S/ %.2f", totalPagar));
+
+        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
     }
 }
