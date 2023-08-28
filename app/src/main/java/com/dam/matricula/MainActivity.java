@@ -2,7 +2,9 @@ package com.dam.matricula;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvCostoCarrera;
     private  TextView tvPension;
 
+    private  TextView edt_Alumno;
     private RadioGroup radioGroup;
-    private Button btnCalcular;
+    private Button btnCalcular,btnImprimir;
 
     private ArrayAdapter<String> fiaAdapter;
     private ArrayAdapter<String> fceAdapter;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         tvGastosAdicionales = findViewById(R.id.tvGastosAdicionales);
         tvTotalPagar = findViewById(R.id.tvTotalPagar);
 
+        edt_Alumno=findViewById(R.id.edt_Alumno);
 
         cuota4=findViewById(R.id.rbt4);
         cuota5=findViewById(R.id.rbt5);
@@ -71,12 +75,21 @@ public class MainActivity extends AppCompatActivity {
 
         btnCalcular=findViewById(R.id.btnCalcular);
 
+        btnImprimir=findViewById(R.id.btnImprimir);
+
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 calculateTotal();
+
+
             }
         });
+
+
+
+
+
 
 
         // Define los arrays
@@ -84,6 +97,9 @@ public class MainActivity extends AppCompatActivity {
         String[] opcionesFIA = {"Tec. de la Información", "Sistemas"};
         String[] opcionesFCE = {"Administración", "Contabilidad"};
         String[] opcionesTeo = {"Biblia"};
+
+
+
 
         // Definir costos
         carreraCosts = new HashMap<>();
@@ -177,4 +193,20 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "", Toast.LENGTH_LONG).show();
     }
+
+    public  void Imprimir(View view){
+
+        Intent i = new Intent(this, ImprimirActivity.class);
+
+
+        i.putExtra("datos", edt_Alumno.getText().toString());
+        i.putExtra("datos2",tvCostoCarrera.getText().toString());
+        i.putExtra("datos3", tvPension.getText().toString());
+        i.putExtra("datos4", tvGastosAdicionales.getText().toString());
+        i.putExtra("datos5", tvTotalPagar.getText().toString());
+
+        startActivity(i);
+
+    }
+
 }

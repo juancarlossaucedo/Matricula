@@ -2,4 +2,25 @@
     <string name="app_name">Matricula</string>
     
     <string name="app_title">MATRICULA</string>
+
+    <string name="btn_calcular">Calcular</string>
+
+    <string name="btn_imprimir">Imprimir</string>
+
+    <string name="title_dos">Resumen de Matricula</string>
+
+    <string name="alumno">Alumno</string>
+    <string name="Escuela">Escuela</string>
+    <string name="Carrera">Carrera</string>
+    <string name="Gastos_adi">Gastos Adicionales</string>
+    <string name="monto_gast">Monto de Gastos Adicionales </string>
+    <string name="numero_cuotas">Número de Cuotas</string>
+    <string name="costo_carrera">Costo Carrera</string>
+    <string name="pension">Pensión</string>
+    <string name="total_pagar">Total Pagar</string>
+
+    <string name="volver">Volver</string>
+
+
+
 </resources>
