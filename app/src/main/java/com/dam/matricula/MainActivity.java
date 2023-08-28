@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> teoAdapter;
     private ArrayAdapter<String> datosAdapter;
 
+    private String[] opcionesFIA;
+    private String[] opcionesFCE;
+    private String[] opcionesTeo;
 
 
     private Map<String, Double> carreraCosts;
@@ -94,9 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Define los arrays
         String[] opcionesSpinner1 = {"FIA", "FCE", "Teologia"};
-        String[] opcionesFIA = {"Tec. de la Información", "Sistemas"};
-        String[] opcionesFCE = {"Administración", "Contabilidad"};
-        String[] opcionesTeo = {"Biblia"};
+
+        opcionesFIA = new String[] {"Tec. de la Información", "Sistemas", "Redes"};
+        opcionesFCE = new String[] {"Administración", "Contabilidad"};
+        opcionesTeo = new String[] {"Biblia"};
 
 
 
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         carreraCosts = new HashMap<>();
         carreraCosts.put("Tec. de la Información", 3000.0);
         carreraCosts.put("Sistemas", 3000.0);
+        carreraCosts.put("Redes", 3000.0);
         carreraCosts.put("Administración", 4000.0);
         carreraCosts.put("Contabilidad", 4500.0);
         carreraCosts.put("Biblia", 3000.0);
@@ -196,6 +201,15 @@ public class MainActivity extends AppCompatActivity {
 
     public  void Imprimir(View view){
 
+        boolean bibliotecaSeleccionada = chkCBiblioteca.isChecked();
+        boolean medioSeleccionado = chkCMedio.isChecked();
+
+        boolean cuota1= cuota4.isChecked();
+        boolean cuota2= cuota5.isChecked();
+        boolean cuota3= cuota6.isChecked();
+
+
+
         Intent i = new Intent(this, ImprimirActivity.class);
 
 
@@ -204,6 +218,45 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("datos3", tvPension.getText().toString());
         i.putExtra("datos4", tvGastosAdicionales.getText().toString());
         i.putExtra("datos5", tvTotalPagar.getText().toString());
+
+        // CHKC
+        if (bibliotecaSeleccionada && !medioSeleccionado) {
+            // Si solo selecciono chkCBiblioteca
+
+            i.putExtra("datos6", chkCBiblioteca.getText().toString());
+        } else if (!bibliotecaSeleccionada && medioSeleccionado) {
+            // Si solo Selecciono chkCMedio
+
+            i.putExtra("datos6", chkCMedio.getText().toString());
+        } else if (bibliotecaSeleccionada && medioSeleccionado) {
+            // concatenar los datos:
+
+            String datosConcatenados = chkCBiblioteca.getText().toString() + " - " +
+                    chkCMedio.getText().toString();
+            i.putExtra("datos6", datosConcatenados);
+        } else {
+
+            // Vacio
+        }
+
+        // Cuotas
+
+        if (cuota1 && !cuota2 && !cuota3){
+
+            //selecciono la 4
+
+            i.putExtra("datos7" , cuota4.getText().toString());
+        } else if (!cuota1 && cuota2 && !cuota3) {
+
+            // selecciono la 5
+            i.putExtra("datos7" , cuota5.getText().toString());
+        } else if (!cuota1 && !cuota2 && cuota3) {
+            //selecciono la 6
+            i.putExtra("datos7" , cuota6.getText().toString());
+        }else {
+            //vacío
+        }
+
 
         startActivity(i);
 

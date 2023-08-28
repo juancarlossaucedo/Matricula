@@ -42,9 +42,16 @@ public class ImprimirActivity extends AppCompatActivity {
         tvTotal.setText(dato5);
 
         String dato6 = getIntent().getStringExtra("datos6");
-        tvEscuela.setText(dato6);
+        tvGastos.setText(dato6);
+
+        String dato7 = getIntent().getStringExtra("datos7");
+        tvNumCuotas.setText(dato7);
+
+
+
 
     }
+
 
     //Regresar
 
