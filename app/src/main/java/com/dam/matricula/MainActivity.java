@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Spinner spinner1 ;
     private Spinner spinner2;
 
+    private Spinner spnEscuela;
     private CheckBox chkCBiblioteca;
     private CheckBox chkCMedio;
 
@@ -56,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        spinner1 = (Spinner) findViewById(R.id.spnEscuela);
-        spinner2 = (Spinner) findViewById(R.id.spnCarrera);
+        spinner1 =  findViewById(R.id.spnEscuela);
+        spinner2 =  findViewById(R.id.spnCarrera);
+
+        spnEscuela= findViewById(R.id.spnEscuela);
 
         radioGroup = findViewById(R.id.rbnt);
         radioGroup.check(R.id.rbt4);
@@ -196,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         tvGastosAdicionales.setText(String.format("S/ %.2f", gastosAdicionales));
         tvTotalPagar.setText(String.format("S/ %.2f", totalPagar));
 
-        Toast.makeText(this, "", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Calculando...", Toast.LENGTH_SHORT).show();
     }
 
     public  void Imprimir(View view){
@@ -210,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         Intent i = new Intent(this, ImprimirActivity.class);
 
 
@@ -218,6 +222,12 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("datos3", tvPension.getText().toString());
         i.putExtra("datos4", tvGastosAdicionales.getText().toString());
         i.putExtra("datos5", tvTotalPagar.getText().toString());
+
+        Spinner spinner = findViewById(R.id.spnEscuela);
+        String opcionEscuela = spinner.getSelectedItem().toString();
+
+        Spinner sp = findViewById(R.id.spnCarrera);
+        String opcionCarrera= sp.getSelectedItem().toString();
 
         // CHKC
         if (bibliotecaSeleccionada && !medioSeleccionado) {
@@ -256,6 +266,12 @@ public class MainActivity extends AppCompatActivity {
         }else {
             //vacío
         }
+
+
+        i.putExtra("datos8", opcionEscuela);
+
+        i.putExtra("datos9", opcionCarrera);
+
 
 
         startActivity(i);
